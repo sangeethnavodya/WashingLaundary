@@ -13,9 +13,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<CustomerDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("WashingMachineDb")));
 
-
-
-
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
