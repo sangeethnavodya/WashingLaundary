@@ -16,7 +16,6 @@ builder.Services.AddDbContext<CustomerDbContext>(options => options.UseSqlServer
 
 
 
-
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
