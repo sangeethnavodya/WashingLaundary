@@ -1,87 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WashingLaundary.Data;
+using WashingLaundary.Dtos.Customer;
 using WashingLaundary.Models;
 
 namespace WashingLaundary.Controllers
 {
-    [ApiController]
 
     [Route("api/[controller]")]
+    [ApiController]
     public class CustomerController : Controller
     {
 
-        private readonly CustomerDbContext customerDbContext;
-        public CustomerController(CustomerDbContext customerDbContext)
+        private readonly CustomerDbContext _customerDbContext;
+
+        private IMapper _mapper;
+        public CustomerController(CustomerDbContext customerDbContext,IMapper mapper)
+
         {
-            this.customerDbContext = customerDbContext;
+            _customerDbContext = customerDbContext;
+            _mapper = mapper;
         }
 
 
 
-        //Get all customers
-        [HttpGet]
-        public async Task<IActionResult> GetAllCards()
-        {
-           var customer=customerDbContext.Customers.ToListAsync();
-            return Ok(customer);
-        }
 
-
-        //Get single customer
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetCustomer([FromRoute] Guid id)
-        {
-            var customer = await customerDbContext.Customers.FirstOrDefaultAsync(x => x.Id == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            return Ok(customer);
-        }
-
-        //Create customer
+   
+        //Add customer
         [HttpPost]
-        public async Task<IActionResult> CreateCustomer([FromBody] Customer customer)
+        [Route("CreateCustomer")]
+        public async Task<IActionResult> CreateCustomer([FromBody] CustomerCreateDto dto)
         {
-            customer.Id = Guid.NewGuid();
-            await customerDbContext.Customers.AddAsync(customer);
-            await customerDbContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetCustomer), customer.Id, customer);
+           
+            var customer = _mapper.Map<Customer>(dto);
+            await _customerDbContext.Customers.AddAsync(customer);
+            await _customerDbContext.SaveChangesAsync();
+            return Ok(customer);
         }
 
-
-        //Update customer
-        [HttpPut("{id:guid}")]  
-        public async Task<IActionResult> UpdateCustomer([FromRoute] Guid id, [FromBody] Customer customer)
-        {
-            var existingCustomer = await customerDbContext.Customers.FirstOrDefaultAsync(x => x.Id == id);
-            if (existingCustomer == null)
-            {
-                return NotFound();
-            }
-            existingCustomer.Name = customer.Name;
-            existingCustomer.Address = customer.Address;
-            existingCustomer.Phone = customer.Phone;
-            existingCustomer.City = customer.City;
-            existingCustomer.State = customer.State;
-            customerDbContext.Customers.Update(existingCustomer);
-            await customerDbContext.SaveChangesAsync();
-            return Ok();
-        }
-
-        //Delete customer
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteCustomer([FromRoute] Guid id)
-        {
-            var customer = await customerDbContext.Customers.FirstOrDefaultAsync(x => x.Id == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            customerDbContext.Customers.Remove(customer);
-            await customerDbContext.SaveChangesAsync();
-            return Ok();
-        }   
+    
+ 
     }
 }
