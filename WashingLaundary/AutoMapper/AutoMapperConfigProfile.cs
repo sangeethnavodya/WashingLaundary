@@ -11,6 +11,9 @@ namespace WashingLaundary.AutoMapper
             //Customer
             CreateMap<CustomerCreateDto, Customer>();
 
+            CreateMap<Customer, CustomerGetDto>();
+
+
         }
     }
 }
