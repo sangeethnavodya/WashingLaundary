@@ -1,19 +1,16 @@
 ﻿using AutoMapper;
 using WashingLaundary.Dtos.Customer;
-using WashingLaundary.Models;
+using WashingLaundary.Entity;
 
 namespace WashingLaundary.AutoMapper
 {
-    public class AutoMapperConfigProfile: Profile
+    public class AutoMapperConfigProfile : Profile
     {
-
         public AutoMapperConfigProfile()
         {
-            CreateMap<CustomerCreateDto,Customer>();
-
-            CreateMap<Customer,CustomerGetDto>();
+            //Customer
+            CreateMap<CustomerCreateDto, Customer>();
 
         }
-
     }
 }

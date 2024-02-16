@@ -1,56 +1,37 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WashingLaundary.Data;
+using WashingLaundary.Context;
 using WashingLaundary.Dtos.Customer;
-using WashingLaundary.Models;
+using WashingLaundary.Entity;
 
 namespace WashingLaundary.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : Controller
+    public class CustomerController : ControllerBase
     {
 
-        private readonly CustomerDbContext _customerDbContext;
+        private  ApplicationDbContext _context { get;}
+        private IMapper _mapper { get; }
 
-        private IMapper _mapper;
-        public CustomerController(CustomerDbContext customerDbContext,IMapper mapper)
-
+        public CustomerController(ApplicationDbContext context,IMapper mapper)
         {
-            _customerDbContext = customerDbContext;
+            _context = context;
             _mapper = mapper;
         }
 
 
-
-
-   
-        //Add customer
         [HttpPost]
-        [Route("CreateCustomer")]
+        [Route("Create")]
         public async Task<IActionResult> CreateCustomer([FromBody] CustomerCreateDto dto)
         {
-           
-            var customer = _mapper.Map<Customer>(dto);
-            await _customerDbContext.Customers.AddAsync(customer);
-            await _customerDbContext.SaveChangesAsync();
-            return Ok(customer);
-        }
-
-        [HttpGet]
-        [Route("GetAllCustomers")]
-        public async Task<ActionResult<IEnumerable<CustomerGetDto>>> GetAllCustomers()
-        {
-            var customers = await _customerDbContext.Customers.ToListAsync();
-            var customersDto = _mapper.Map<IEnumerable<CustomerGetDto>>(customers);
-            return Ok(customersDto);
+            Customer newCustomer= _mapper.Map<Customer>(dto);
+            await _context.Customers.AddAsync(newCustomer);
+            await _context.SaveChangesAsync();
+            return Ok(newCustomer);
         }
 
 
-
-    
- 
     }
 }
