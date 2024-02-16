@@ -14,6 +14,11 @@ namespace WashingLaundary.Models
           public string City { get; set; }
 
           public string State { get; set; }
+          
+
+        //relationship
+          public ICollection<Clothes> Clothes { get; set; }
+
 
 
     }

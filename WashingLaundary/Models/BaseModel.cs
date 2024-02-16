@@ -5,7 +5,7 @@ namespace WashingLaundary.Models
     public class BaseModel
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
  
     }

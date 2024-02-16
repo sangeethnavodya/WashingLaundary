@@ -21,5 +21,16 @@
         public string Description { get; set; }
 
         public Boolean IsDelievered { get; set; }
+
+        public string status { get; set; }
+
+
+
+
+        //relationship
+
+        public long CustomerId { get; set; }
+        public Customer customer { get; set; }
+
     }
 }
