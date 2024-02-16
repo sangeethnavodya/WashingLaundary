@@ -23,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Dtos\NewFolder1\" />
+    <Folder Include="Dtos\NewFolder2\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 
