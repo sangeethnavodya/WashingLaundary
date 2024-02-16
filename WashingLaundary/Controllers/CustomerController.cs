@@ -39,6 +39,17 @@ namespace WashingLaundary.Controllers
             return Ok(customer);
         }
 
+        [HttpGet]
+        [Route("GetAllCustomers")]
+        public async Task<ActionResult<IEnumerable<CustomerGetDto>>> GetAllCustomers()
+        {
+            var customers = await _customerDbContext.Customers.ToListAsync();
+            var customersDto = _mapper.Map<IEnumerable<CustomerGetDto>>(customers);
+            return Ok(customersDto);
+        }
+
+
+
     
  
     }
