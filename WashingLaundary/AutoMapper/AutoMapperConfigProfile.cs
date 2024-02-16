@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using WashingLaundary.Dtos.Customer;
+using WashingLaundary.Models;
 
 namespace WashingLaundary.AutoMapper
 {
@@ -7,8 +9,10 @@ namespace WashingLaundary.AutoMapper
 
         public AutoMapperConfigProfile()
         {
-            CreateMap<WashingLaundary.Models.Customer, WashingLaundary.Dtos.Customer.CustomerCreateDto>();
-            CreateMap<WashingLaundary.Dtos.Customer.CustomerCreateDto, WashingLaundary.Models.Customer>();
+            CreateMap<CustomerCreateDto,Customer>();
+
+            CreateMap<Customer,CustomerGetDto>();
+
         }
 
     }
